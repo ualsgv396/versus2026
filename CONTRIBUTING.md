@@ -1,4 +1,4 @@
-# Guía de entorno de desarrollo — DeerDays
+# Guía de entorno de desarrollo — Versus
 
 Todo el equipo trabajando sobre el mismo entorno, sin instalaciones manuales ni "en mi máquina funciona".
 
