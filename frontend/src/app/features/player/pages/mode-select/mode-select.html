@@ -1,0 +1,30 @@
+<div class="vs-modesel">
+  <app-topbar active="play" />
+
+  <div class="vs-modesel__body">
+    <div style="text-align: center; margin-bottom: 36px">
+      <div class="vs-q-label">PASO 1 DE 2</div>
+      <h1 class="vs-display" style="font-size: 48px; margin-top: 6px">ELIGE TU INFIERNO</h1>
+    </div>
+
+    <div class="vs-modesel__grid">
+      @for (m of modes; track m.key) {
+        <a [routerLink]="m.route"
+           class="vs-mode-card"
+           [class.is-featured]="m.featured"
+           [style.--mode-color]="m.color">
+          <div class="vs-mode-card__top">
+            <div class="vs-mode-card__icon">{{ m.icon }}</div>
+            <span class="vs-pill vs-pill--mute" style="font-size: 10px">{{ m.tag }}</span>
+          </div>
+          <div class="vs-mode-card__name vs-display">{{ m.name }}</div>
+          <div class="vs-mode-card__desc">{{ m.desc }}</div>
+          <span class="btn btn--ghost btn--sm vs-mode-card__cta">SELECCIONAR →</span>
+          @if (m.featured) {
+            <div class="vs-mode-card__badge">RECOMENDADO</div>
+          }
+        </a>
+      }
+    </div>
+  </div>
+</div>

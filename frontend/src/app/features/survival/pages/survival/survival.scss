@@ -1,0 +1,197 @@
+.vs-survival {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 50% 0%,   rgba(67,97,238,0.06),  transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(230,57,70,0.05),  transparent 60%),
+    var(--vs-bg-base);
+  padding: 28px 40px 40px;
+  overflow: hidden;
+  isolation: isolate;
+
+  &.is-correct { animation: vs-bg-pulse     600ms ease; }
+  &.is-wrong   { animation: vs-bg-pulse-red 600ms ease; }
+}
+
+// ─── HUD ─────────────────────────────────────────────────────────────────────
+
+.vs-hud {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--vs-border);
+}
+
+.vs-hud__left  { display: flex; align-items: center; gap: 24px; }
+.vs-hud__center { display: flex; justify-content: center; }
+.vs-hud__right { display: flex; align-items: center; gap: 24px; justify-content: flex-end; }
+
+.vs-hud__score {
+  text-align: right;
+
+  .vs-stat-num { font-size: 22px; }
+}
+
+.vs-streak {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  padding: 8px 18px;
+  border: 1px solid var(--vs-border);
+  border-radius: var(--vs-radius-sm);
+  background: var(--vs-bg-surface);
+  transition: all 200ms ease;
+
+  &[data-active='true'] {
+    border-color: var(--vs-accent-gold);
+    box-shadow: var(--vs-shadow-glow-gold);
+  }
+}
+
+.vs-streak__x {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  color: var(--vs-accent-gold);
+}
+
+.vs-streak__num {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--vs-text-primary);
+  letter-spacing: 0.04em;
+}
+
+.vs-streak__label {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--vs-text-muted);
+  margin-left: 6px;
+}
+
+// ─── Pregunta ─────────────────────────────────────────────────────────────────
+
+.vs-survival__question {
+  text-align: center;
+  padding: 32px 0 24px;
+}
+
+.vs-q-text {
+  font-size: 38px;
+  line-height: 1.05;
+  text-transform: uppercase;
+
+  strong { color: var(--vs-accent-gold); }
+}
+
+// ─── Arena ────────────────────────────────────────────────────────────────────
+
+.vs-survival__arena {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 16px;
+  align-items: stretch;
+  margin-top: 16px;
+}
+
+// ─── VS divider ───────────────────────────────────────────────────────────────
+
+.vs-vs-divider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 80px;
+}
+
+.vs-vs-line {
+  flex: 1;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--vs-border-strong), transparent);
+}
+
+.vs-vs-mark {
+  font-size: 56px;
+  color: var(--vs-accent-red);
+  text-shadow: 0 0 18px rgba(230,57,70,0.4);
+  letter-spacing: 0.05em;
+}
+
+// ─── Feedback overlay ─────────────────────────────────────────────────────────
+
+.vs-feedback {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  background: var(--vs-bg-elevated);
+  border: 1px solid var(--vs-border-strong);
+  border-radius: var(--vs-radius-lg);
+  padding: 32px 56px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  min-width: 320px;
+  animation: vs-fade-in 200ms ease;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+
+  &.is-correct {
+    border-color: var(--vs-accent-green);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 60px rgba(46,196,182,0.25);
+  }
+
+  &.is-wrong {
+    border-color: var(--vs-accent-red);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 60px rgba(230,57,70,0.25);
+  }
+}
+
+.vs-feedback__title {
+  font-size: 56px;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.vs-feedback.is-correct .vs-feedback__title { color: var(--vs-accent-green); }
+.vs-feedback.is-wrong   .vs-feedback__title { color: var(--vs-accent-red); animation: vs-glitch 600ms ease; }
+
+.vs-feedback__delta {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--vs-text-primary);
+}
+
+.vs-feedback__sub {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--vs-text-muted);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+// ─── Burst de partículas ──────────────────────────────────────────────────────
+
+.vs-burst {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 11;
+}
+
+.vs-burst__shard {
+  position: absolute;
+  width: 6px; height: 6px;
+  background: var(--vs-accent-gold);
+  box-shadow: 0 0 12px var(--vs-accent-gold);
+  animation: vs-shard 700ms ease-out forwards;
+}

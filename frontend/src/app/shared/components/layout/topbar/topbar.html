@@ -1,0 +1,24 @@
+<div class="vs-topbar">
+  <div class="vs-mark">
+    VER<span class="vs-mark__slash">/</span>SUS
+    @if (role() === 'admin') {
+      <span class="vs-pill vs-pill--err" style="margin-left: 14px">
+        <span class="vs-pill__dot"></span>ADMIN
+      </span>
+    }
+  </div>
+
+  <nav class="vs-topbar__nav">
+    @for (item of items(); track item[0]) {
+      <a [class.active]="active() === item[0]">{{ item[1] }}</a>
+    }
+  </nav>
+
+  <div class="vs-topbar__user">
+    <div style="text-align: right">
+      <div style="font-weight: 600; font-size: 13px">{{ user().name }}</div>
+      <div class="vs-mono" style="font-size: 11px; color: var(--vs-text-muted)">{{ user().xp }} XP</div>
+    </div>
+    <div class="vs-avatar">{{ initials() }}</div>
+  </div>
+</div>

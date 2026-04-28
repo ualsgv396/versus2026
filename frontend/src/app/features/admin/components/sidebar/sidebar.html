@@ -1,0 +1,26 @@
+<aside class="vs-admin__side">
+  <div class="vs-mark" style="padding: 0 8px 18px; border-bottom: 1px solid var(--vs-border); margin-bottom: 14px; font-size: 18px">
+    VER<span class="vs-mark__slash">/</span>SUS
+  </div>
+
+  @for (section of sections; track section.label) {
+    <div class="vs-admin__nav-section">{{ section.label }}</div>
+    @for (item of section.items; track item.key) {
+      <div class="vs-admin__nav-item" [class.active]="active() === item.key">
+        <span class="vs-status-dot idle"></span>{{ item.label }}
+      </div>
+    }
+  }
+
+  <div style="flex: 1"></div>
+
+  <div style="padding: 12px; border-top: 1px solid var(--vs-border); display: flex; align-items: center; gap: 10px">
+    <div class="vs-avatar" style="width: 28px; height: 28px; font-size: 11px; background: linear-gradient(135deg, var(--vs-accent-blue), var(--vs-accent-purple))">
+      AD
+    </div>
+    <div style="flex: 1">
+      <div style="font-size: 12px; font-weight: 600">admin_root</div>
+      <div style="font-size: 10px; color: var(--vs-text-muted)">Administrador</div>
+    </div>
+  </div>
+</aside>

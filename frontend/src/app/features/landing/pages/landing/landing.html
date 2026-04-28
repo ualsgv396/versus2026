@@ -1,0 +1,205 @@
+<div class="vs-landing">
+
+  <!-- Topbar pública -->
+  <div class="vs-topbar vs-landing__topbar">
+    <div class="vs-mark">VER<span class="vs-mark__slash">/</span>SUS</div>
+    <nav class="vs-topbar__nav">
+      <a (click)="scrollTo('inicio')"        [class.active]="activeSection() === 'inicio'">Inicio</a>
+      <a (click)="scrollTo('modos')"         [class.active]="activeSection() === 'modos'">Modos</a>
+      <a (click)="scrollTo('como-funciona')" [class.active]="activeSection() === 'como-funciona'">Cómo funciona</a>
+      <a (click)="scrollTo('datos')"         [class.active]="activeSection() === 'datos'">Datos reales</a>
+    </nav>
+    <div style="display: flex; gap: 10px">
+      <a routerLink="/login" class="btn btn--ghost btn--sm">INICIAR SESIÓN</a>
+      <a routerLink="/register" class="btn btn--danger btn--sm">REGISTRARSE</a>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <section id="inicio" class="vs-landing__hero">
+    <div class="vs-landing__hero-bg">
+      <div class="vs-landing__bg-grid"></div>
+    </div>
+
+    <div class="vs-landing__hero-inner">
+      <div class="vs-landing__hero-left">
+        <span class="vs-pill vs-pill--err">
+          <span class="vs-pill__dot"></span>EN BETA · ABRIL 2026
+        </span>
+        <h1 class="vs-display vs-landing__title">
+          DOS&nbsp;OPCIONES.<br>
+          UNA RESPUESTA.<br>
+          <span class="vs-landing__title-accent">CERO PIEDAD.</span>
+        </h1>
+        <p class="vs-landing__lede">
+          Versus es un juego de preguntas en el que no basta con saber: hay que arriesgar.
+          Datos reales, números imposibles, tres vidas. Solo o cara a cara.
+        </p>
+        <div class="vs-landing__hero-cta">
+          <a routerLink="/register" class="btn btn--danger btn--lg">▶ EMPEZAR A JUGAR</a>
+          <a routerLink="/login" class="btn btn--ghost btn--lg">YA TENGO CUENTA</a>
+        </div>
+        <div class="vs-landing__trust">
+          <div><span class="vs-mono" style="color: var(--vs-accent-gold)">14 287</span> jugadores activos</div>
+          <span class="vs-trust-sep"></span>
+          <div><span class="vs-mono" style="color: var(--vs-accent-green)">98 442</span> preguntas reales</div>
+          <span class="vs-trust-sep"></span>
+          <div><span class="vs-mono" style="color: var(--vs-accent-blue)">3 142</span> partidas hoy</div>
+        </div>
+      </div>
+
+      <!-- Demo animada -->
+      <div class="vs-landing__hero-right">
+        <div class="vs-landing__demo">
+          <div class="vs-landing__demo-chrome">
+            <span class="vs-pill vs-pill--err">
+              <span class="vs-pill__dot"></span>SUPERVIVENCIA
+            </span>
+            <div class="vs-lifebar" style="transform: scale(0.85)">
+              <span class="vs-lifebar__heart"></span>
+              <span class="vs-lifebar__heart"></span>
+              <span class="vs-lifebar__heart"></span>
+            </div>
+            <div class="vs-mono" style="font-size: 11px; color: var(--vs-text-muted); letter-spacing: 0.12em">×7 RACHA</div>
+          </div>
+          <div class="vs-display vs-landing__demo-q">{{ demo().q }}</div>
+          <div class="vs-landing__demo-arena">
+            <div class="vs-landing__demo-card" [class.is-winner]="demo().winner === 'a'" [class.is-loser]="demo().winner !== 'a'">
+              <div class="vs-img-stub" style="min-height: 80px">
+                <div class="vs-img-stub__stripes"></div>
+                <div class="vs-img-stub__caption vs-mono">foto A</div>
+              </div>
+              <div class="vs-display" style="font-size: 18px; margin-top: 10px">{{ demo().a }}</div>
+              <div class="vs-mono vs-landing__demo-num"
+                   [style.color]="demo().winner === 'a' ? 'var(--vs-accent-green)' : 'var(--vs-accent-red)'">
+                {{ demo().av }}
+              </div>
+            </div>
+
+            <div class="vs-display" style="font-size: 36px; color: var(--vs-accent-red); text-shadow: 0 0 18px rgba(230,57,70,0.4)">VS</div>
+
+            <div class="vs-landing__demo-card" [class.is-winner]="demo().winner === 'b'" [class.is-loser]="demo().winner !== 'b'">
+              <div class="vs-img-stub" style="min-height: 80px">
+                <div class="vs-img-stub__stripes"></div>
+                <div class="vs-img-stub__caption vs-mono">foto B</div>
+              </div>
+              <div class="vs-display" style="font-size: 18px; margin-top: 10px">{{ demo().b }}</div>
+              <div class="vs-mono vs-landing__demo-num"
+                   [style.color]="demo().winner === 'b' ? 'var(--vs-accent-green)' : 'var(--vs-accent-red)'">
+                {{ demo().bv }}
+              </div>
+            </div>
+          </div>
+          <div class="vs-mono" style="font-size: 10px; letter-spacing: 0.18em; color: var(--vs-text-muted); text-align: center; margin-top: 12px">
+            — VISTA EN VIVO —
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cómo se juega -->
+  <section id="como-funciona" class="vs-landing__how">
+    <div class="vs-landing__section-head">
+      <div class="vs-q-label" style="margin-bottom: 0">CÓMO FUNCIONA</div>
+      <h2 class="vs-display vs-landing__h2">TRES PASOS. UNA REGLA: NO DUDES.</h2>
+    </div>
+    <div class="vs-landing__steps">
+      @for (s of steps; track s.n) {
+        <div class="vs-landing__step">
+          <div class="vs-mono vs-landing__step-num">{{ s.n }}</div>
+          <div class="vs-display vs-landing__step-title">{{ s.t }}</div>
+          <div class="vs-landing__step-desc">{{ s.d }}</div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Modos -->
+  <section id="modos" class="vs-landing__modes">
+    <div class="vs-landing__section-head">
+      <div class="vs-q-label" style="margin-bottom: 0">CINCO MANERAS DE PERDER</div>
+      <h2 class="vs-display vs-landing__h2">ELIGE TU INFIERNO.</h2>
+    </div>
+    <div class="vs-landing__modes-grid">
+      @for (m of modes; track m.n) {
+        <div class="vs-landing__mode" [class.is-big]="m.big" [style.--mode-color]="'var(--vs-accent-' + m.c + ')'">
+          <div class="vs-landing__mode-icon">{{ m.ico }}</div>
+          <span class="vs-pill vs-pill--mute" style="font-size: 10px">{{ m.tag }}</span>
+          <div class="vs-display vs-landing__mode-name">{{ m.n }}</div>
+          <div class="vs-landing__mode-desc">{{ m.d }}</div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Datos reales -->
+  <section id="datos" class="vs-landing__data">
+    <div class="vs-landing__data-grid">
+      <div>
+        <div class="vs-q-label" style="margin-bottom: 0">PREGUNTAS SIEMPRE FRESCAS</div>
+        <h2 class="vs-display vs-landing__h2" style="font-size: 44px; text-align: left; margin-top: 6px">
+          SI EL NÚMERO EXISTE,<br>VERSUS LO SABE.
+        </h2>
+        <p class="vs-landing__lede" style="max-width: 480px; margin-top: 16px">
+          Nuestras arañas recorren la web cada hora. Seguidores, goles, taquillas, récords.
+          Nunca te encontrarás dos veces la misma ronda.
+        </p>
+        <div style="display: flex; gap: 24px; margin-top: 24px">
+          <div>
+            <div class="vs-stat-num" style="color: var(--vs-accent-gold)">+1 230</div>
+            <div class="vs-stat-label">esta semana</div>
+          </div>
+          <div>
+            <div class="vs-stat-num" style="color: var(--vs-accent-green)">6</div>
+            <div class="vs-stat-label">spiders activas</div>
+          </div>
+          <div>
+            <div class="vs-stat-num" style="color: var(--vs-accent-blue)">24/7</div>
+            <div class="vs-stat-label">scraping</div>
+          </div>
+        </div>
+      </div>
+      <div class="vs-landing__terminal">
+        <div class="vs-landing__terminal-head">
+          <span class="vs-status-dot err"></span>
+          <span class="vs-status-dot warn"></span>
+          <span class="vs-status-dot ok"></span>
+          <span style="margin-left: 10px; font-size: 11px; color: var(--vs-text-muted)">spiders.log · live</span>
+        </div>
+        <div class="vs-run-log" style="border: none; border-radius: 0; max-height: none">
+          <div><span class="ts">10:31:22</span><span class="ok">[OK]</span> spider_transfermarkt → 1 240 q</div>
+          <div><span class="ts">10:18:04</span><span class="ok">[OK]</span> spider_spotify_charts → 845 q</div>
+          <div><span class="ts">09:55:11</span><span class="ok">[OK]</span> spider_twitch_top → 156 q</div>
+          <div><span class="ts">09:18:02</span><span class="ok">[OK]</span> backup nocturno · 2.4 GB</div>
+          <div><span class="ts">08:42:00</span><span class="warn">[WARN]</span> spider_box_office latencia +8s</div>
+          <div><span class="ts">08:00:00</span><span class="ok">[OK]</span> 27 nuevas categorías</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA final -->
+  <section class="vs-landing__cta">
+    <h2 class="vs-display vs-landing__cta-title">¿LISTO PARA DUDAR?</h2>
+    <p class="vs-landing__lede" style="max-width: 480px; margin: 14px auto 28px">
+      Crea tu cuenta gratis. Tarda menos que decidir entre Cristiano y Messi.
+    </p>
+    <div style="display: flex; gap: 12px; justify-content: center">
+      <a routerLink="/register" class="btn btn--danger btn--lg">CREAR CUENTA GRATIS</a>
+      <a routerLink="/login" class="btn btn--ghost btn--lg">YA TENGO CUENTA →</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="vs-landing__footer">
+    <div class="vs-mark">VER<span class="vs-mark__slash">/</span>SUS</div>
+    <div style="font-size: 11px; color: var(--vs-text-muted); letter-spacing: 0.1em">
+      ELIGE MODO. ELIGE RIVAL. Y QUE GANE EL QUE MENOS DUDE.
+    </div>
+    <div style="display: flex; gap: 18px; font-size: 11px; color: var(--vs-text-muted); text-transform: uppercase; letter-spacing: 0.12em">
+      <a>GitHub</a><a>Equipo</a><a>Privacidad</a>
+    </div>
+  </footer>
+
+</div>
