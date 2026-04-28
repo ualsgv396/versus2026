@@ -41,6 +41,14 @@ services:
     environment:
       NODE_ENV: development
 
+  scraper:
+    build:
+      context: ./scraper
+      dockerfile: Dockerfile
+    volumes:
+      - ./scraper:/app        # Hot reload del código
+    environment:
+      ENV: development
   pgadmin:
     image: dpage/pgadmin4:latest
     restart: unless-stopped
@@ -59,4 +67,5 @@ services:
 volumes:
   maven_cache:
   node_modules:
+  scraper_output:
   pgadmin_data:

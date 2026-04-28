@@ -53,3 +53,14 @@ services:
       resources:
         limits:
           memory: 128m
+  scraper:
+    build:
+      context: ./scraper
+      dockerfile: Dockerfile
+    restart: no
+    environment:
+      ENV: production
+    deploy:
+      resources:
+        limits:
+          memory: 256m
