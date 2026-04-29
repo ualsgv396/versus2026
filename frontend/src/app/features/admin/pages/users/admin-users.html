@@ -1,0 +1,101 @@
+<div class="vs-admin">
+  <app-admin-sidebar active="users" />
+
+  <div class="vs-admin__main">
+
+    <div class="vs-admin__head">
+      <div>
+        <h1>USUARIOS</h1>
+        <div class="vs-admin__head-meta">14 287 usuarios · 312 baneados · 8 moderadores</div>
+      </div>
+      <div style="display: flex; gap: 8px">
+        <button class="btn btn--ghost btn--sm">EXPORTAR CSV</button>
+        <button class="btn btn--primary btn--sm">+ INVITAR</button>
+      </div>
+    </div>
+
+    <!-- Filtros -->
+    <div style="display: flex; gap: 10px; align-items: center">
+      <input class="vs-input" placeholder="Buscar por usuario o email…"
+             style="flex: 1; max-width: 360px; font-size: 13px" />
+      <select class="vs-input" style="width: 150px; font-size: 12px">
+        <option>Todos los roles</option>
+        <option>Jugador</option>
+        <option>Moderador</option>
+        <option>Admin</option>
+      </select>
+      <select class="vs-input" style="width: 150px; font-size: 12px">
+        <option>Cualquier estado</option>
+        <option>Activo</option>
+        <option>Baneado</option>
+      </select>
+      <div style="flex: 1"></div>
+      <span class="vs-pill vs-pill--mute">6 / 14 287</span>
+    </div>
+
+    <!-- Tabla -->
+    <div class="vs-card" style="padding: 0">
+      <table class="vs-table">
+        <thead>
+          <tr>
+            <th><input type="checkbox" /></th>
+            <th>Usuario</th>
+            <th>Rol</th>
+            <th>Nivel</th>
+            <th>Partidas</th>
+            <th>Alta</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (u of users; track u.name) {
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>
+                <div class="vs-user-cell">
+                  <div class="vs-avatar" style="width: 30px; height: 30px; font-size: 11px">
+                    {{ initials(u.name) }}
+                  </div>
+                  <div>
+                    <div style="font-weight: 600; font-size: 13px">{{ u.name }}</div>
+                    <div style="font-size: 11px; color: var(--vs-text-muted)">{{ u.email }}</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="vs-pill"
+                      [style.color]="roleColor(u.role)"
+                      [style.background]="roleBg(u.role)">
+                  <span class="vs-pill__dot"></span>{{ u.role.toUpperCase() }}
+                </span>
+              </td>
+              <td class="vs-mono">{{ u.level }}</td>
+              <td class="vs-mono">{{ u.games }}</td>
+              <td style="color: var(--vs-text-muted); font-size: 12px">{{ u.joined }}</td>
+              <td>
+                @if (u.state === 'ok') {
+                  <span class="vs-pill vs-pill--ok"><span class="vs-pill__dot"></span>ACTIVO</span>
+                }
+                @if (u.state === 'warn') {
+                  <span class="vs-pill vs-pill--warn"><span class="vs-pill__dot"></span>AVISO</span>
+                }
+                @if (u.state === 'banned') {
+                  <span class="vs-pill vs-pill--err"><span class="vs-pill__dot"></span>BANEADO</span>
+                }
+              </td>
+              <td>
+                <div style="display: flex; gap: 6px">
+                  <button class="btn btn--ghost btn--sm" style="padding: 4px 10px; font-size: 10px">VER</button>
+                  <button class="btn btn--ghost btn--sm" style="padding: 4px 10px; font-size: 10px">EDITAR</button>
+                  <button class="btn btn--danger btn--sm" style="padding: 4px 10px; font-size: 10px">BAN</button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

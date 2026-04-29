@@ -1,0 +1,88 @@
+.vs-dash {
+  width: 100%;
+  background: var(--vs-bg-base);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.vs-dash__body {
+  padding: 36px 40px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.vs-dash__hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: center;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--vs-border);
+}
+
+.vs-dash__title {
+  font-size: 84px;
+  line-height: 0.9;
+  margin-top: 4px;
+}
+
+.vs-stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.vs-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.vs-mode-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.vs-mode-mini {
+  padding: 18px;
+}
+
+.vs-mode-mini__bar {
+  width: 36px;
+  height: 3px;
+  background: var(--mode-color, var(--vs-accent-blue));
+  margin-bottom: 4px;
+}
+
+.vs-dash__cols {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.vs-rank-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 4px;
+  border-bottom: 1px solid var(--vs-border);
+
+  &:last-child { border-bottom: none; }
+
+  &.is-you {
+    background: rgba(67,97,238,0.08);
+    margin: 0 -8px;
+    padding-left: 12px;
+    padding-right: 12px;
+    border-radius: 4px;
+    border-bottom-color: transparent;
+  }
+}
+
+.vs-rank-pos {
+  font-size: 12px;
+  color: var(--vs-text-muted);
+  width: 28px;
+}

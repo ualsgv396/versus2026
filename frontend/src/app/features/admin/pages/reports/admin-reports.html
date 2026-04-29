@@ -1,0 +1,63 @@
+<div class="vs-admin">
+  <app-admin-sidebar active="reports" />
+
+  <div class="vs-admin__main">
+
+    <div class="vs-admin__head">
+      <div>
+        <h1>MODERACIÓN DE PREGUNTAS</h1>
+        <div class="vs-admin__head-meta">27 reportes pendientes · 9 nuevos en las últimas 24h</div>
+      </div>
+      <button class="btn btn--ghost btn--sm">BATCH RESOLVER</button>
+    </div>
+
+    <!-- Filtros -->
+    <div style="display: flex; gap: 10px; align-items: center">
+      <span class="vs-pill vs-pill--err" style="cursor: pointer"><span class="vs-pill__dot"></span>PENDIENTES · 27</span>
+      <span class="vs-pill vs-pill--mute" style="cursor: pointer">EN REVISIÓN · 4</span>
+      <span class="vs-pill vs-pill--mute" style="cursor: pointer">RESUELTAS · 312</span>
+      <span class="vs-pill vs-pill--mute" style="cursor: pointer">DESCARTADAS · 88</span>
+      <div style="flex: 1"></div>
+      <select class="vs-input" style="width: 200px; padding: 7px 10px; font-size: 12px">
+        <option>Ordenar: más reportada</option>
+        <option>Ordenar: más reciente</option>
+      </select>
+    </div>
+
+    <!-- Cards de reportes -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px">
+      @for (r of reports; track r.id) {
+        <div class="vs-report-card">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px">
+            <span class="vs-pill vs-pill--err">
+              <span class="vs-pill__dot"></span>{{ r.reason.toUpperCase() }}
+            </span>
+            <div style="font-size: 11px; color: var(--vs-text-muted)">×{{ r.count }} reportes · {{ r.when }}</div>
+          </div>
+
+          <div class="vs-report-card__q">{{ r.q }}</div>
+
+          <div class="vs-report-card__opts">
+            @for (opt of r.opts; track opt.name) {
+              <div class="vs-report-opt" [class.is-correct]="opt.ok">
+                <span>{{ opt.name }}</span>
+                <span class="vs-report-opt__num">{{ opt.num }}</span>
+              </div>
+            }
+          </div>
+
+          <div style="font-size: 11px; color: var(--vs-text-muted); border-top: 1px solid var(--vs-border); padding-top: 10px">
+            Reportado por <strong style="color: var(--vs-text-secondary)">&#64;{{ r.reporter }}</strong> · fuente: transfermarkt.es · scrapeada hace 3 días
+          </div>
+
+          <div style="display: flex; gap: 8px">
+            <button class="btn btn--ghost btn--sm">DESCARTAR</button>
+            <button class="btn btn--gold btn--sm">CORREGIR</button>
+            <button class="btn btn--danger btn--sm" style="margin-left: auto">ELIMINAR</button>
+          </div>
+        </div>
+      }
+    </div>
+
+  </div>
+</div>

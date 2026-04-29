@@ -1,0 +1,47 @@
+.vs-result-page {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--vs-bg-base);
+  display: flex;
+  flex-direction: column;
+}
+
+.vs-result {
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 880px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.vs-result__hero {
+  text-align: center;
+  padding: 16px 0 24px;
+}
+
+.vs-result__verdict {
+  font-size: 64px;
+  margin-top: 6px;
+  line-height: 0.95;
+}
+
+.vs-result.is-win .vs-result__verdict {
+  color: var(--vs-accent-gold);
+  text-shadow: 0 0 30px rgba(244,197,66,0.3);
+}
+
+.vs-result.is-loss .vs-result__verdict {
+  color: var(--vs-accent-red);
+}
+
+.vs-result__stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.vs-result__breakdown {
+  padding: 22px;
+}

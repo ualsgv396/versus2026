@@ -1,0 +1,50 @@
+.vs-profile-page {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--vs-bg-base);
+  display: flex;
+  flex-direction: column;
+}
+
+.vs-profile {
+  padding: 36px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.vs-profile__head {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 28px;
+}
+
+.vs-profile__cols {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.vs-achievements-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.vs-badge-card {
+  background: var(--vs-bg-surface);
+  border: 1px solid var(--vs-border);
+  border-left: 3px solid var(--mode-color, var(--vs-accent-blue));
+  border-radius: var(--vs-radius-md);
+  padding: 16px;
+}
+
+.vs-badge-card__icon {
+  font-size: 28px;
+  color: var(--mode-color, var(--vs-accent-blue));
+  line-height: 1;
+}

@@ -1,0 +1,44 @@
+<div class="vs-lobby-page">
+  <app-topbar active="play" />
+
+  <div class="vs-lobby">
+    <div style="text-align: center">
+      <div class="vs-q-label">SALA · DUELO BINARIO</div>
+      <div class="vs-display" style="font-size: 32px; margin-top: 6px">ESPERANDO RIVAL</div>
+    </div>
+
+    <div class="vs-lobby__code">
+      <div class="vs-stat-label" style="margin-bottom: 8px">Código de sala</div>
+      <div class="vs-mono vs-lobby__code-num">7K2X-94</div>
+      <button class="btn btn--ghost btn--sm" style="margin-top: 10px">COPIAR ENLACE</button>
+    </div>
+
+    <div class="vs-lobby__duel">
+      <div class="vs-lobby__player is-ready">
+        <div class="vs-avatar vs-avatar--xl">AR</div>
+        <div class="vs-display" style="font-size: 24px; margin-top: 10px">aritzz92</div>
+        <div class="vs-mono" style="color: var(--vs-text-muted); font-size: 12px">Nivel 14 · #312</div>
+        <span class="vs-pill vs-pill--ok" style="margin-top: 10px">
+          <span class="vs-pill__dot"></span>LISTO
+        </span>
+      </div>
+
+      <div class="vs-lobby__vs vs-display">VS</div>
+
+      <div class="vs-lobby__player is-waiting">
+        <div class="vs-avatar vs-avatar--xl"
+             style="background: var(--vs-bg-input); border-style: dashed; color: var(--vs-text-muted)">?</div>
+        <div class="vs-display" style="font-size: 24px; margin-top: 10px; color: var(--vs-text-muted)">—</div>
+        <div class="vs-mono" style="color: var(--vs-text-muted); font-size: 12px">Buscando…</div>
+        <div class="vs-loader" style="margin-top: 10px">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 12px">
+      <a routerLink="/play/select" class="btn btn--ghost">CANCELAR</a>
+      <button class="btn btn--primary">RETAR A AMIGO</button>
+    </div>
+  </div>
+</div>
