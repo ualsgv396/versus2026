@@ -5,22 +5,16 @@
 
     <!-- Cabecera del perfil -->
     <div class="vs-profile__head vs-card">
-      <div class="vs-avatar" style="width: 104px; height: 104px; font-size: 38px">AR</div>
+      <div class="vs-avatar" style="width: 104px; height: 104px; font-size: 38px">{{ initials() }}</div>
       <div style="flex: 1">
-        <div class="vs-display" style="font-size: 42px; line-height: 1">aritzz92</div>
+        <div class="vs-display" style="font-size: 42px; line-height: 1">{{ username() }}</div>
         <div style="color: var(--vs-text-secondary); margin-top: 6px; font-size: 13px">
-          Se unió en marzo de 2026 · <strong>247</strong> partidas ·
-          <strong style="color: var(--vs-accent-gold)">nivel 14</strong>
-        </div>
-        <div style="display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap">
-          <span class="vs-pill vs-pill--info"><span class="vs-pill__dot"></span>RANKING #312</span>
-          <span class="vs-pill vs-pill--ok"><span class="vs-pill__dot"></span>RACHA ACTUAL 5</span>
-          <span class="vs-pill vs-pill--warn"><span class="vs-pill__dot"></span>RIESGO ALTO</span>
+          Se unió en {{ joined() }} · <strong>{{ totalGames() }}</strong> partidas ·
+          <strong style="color: var(--vs-accent-gold)">mejor racha {{ bestStreakOverall() }}</strong>
         </div>
       </div>
       <div style="display: flex; flex-direction: column; gap: 8px">
         <button class="btn btn--ghost btn--sm">EDITAR PERFIL</button>
-        <button class="btn btn--primary btn--sm">▶ RETAR</button>
       </div>
     </div>
 
@@ -32,85 +26,30 @@
         <div>
           <div class="vs-section-title">Estadísticas por modo</div>
           <div class="vs-card" style="padding: 0">
-            <table class="vs-table">
-              <thead>
-                <tr>
-                  <th>Modo</th><th>Partidas</th><th>Victorias</th><th>% Acierto</th><th>Mejor racha</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (s of modeStats; track s.mode) {
-                  <tr>
-                    <td style="font-weight: 600">{{ s.mode }}</td>
-                    <td class="vs-mono">{{ s.games }}</td>
-                    <td class="vs-mono">{{ s.wins }}</td>
-                    <td class="vs-mono" style="color: var(--vs-accent-green)">{{ s.acc }}</td>
-                    <td class="vs-mono" style="color: var(--vs-accent-gold)">{{ s.best }}</td>
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div>
-          <div class="vs-section-title">Categorías favoritas</div>
-          <div class="vs-card">
-            @for (r of categories; track r.cat) {
-              <div class="vs-cat-row">
-                <div style="flex: 0 0 120px; font-size: 13px">{{ r.cat }}</div>
-                <div style="flex: 1">
-                  <div class="vs-progress">
-                    <div class="vs-progress__bar" [style.width]="r.pct + '%'"></div>
-                  </div>
-                </div>
-                <div class="vs-mono" style="flex: 0 0 50px; text-align: right; font-size: 13px">{{ r.pct }}%</div>
+            @if (modeStats().length === 0) {
+              <div style="padding: 1.25rem; color: var(--vs-text-muted); text-align: center">
+                Aún no has jugado ninguna partida.
               </div>
-            }
-          </div>
-        </div>
-      </div>
-
-      <!-- Columna derecha -->
-      <div style="flex: 1; display: flex; flex-direction: column; gap: 24px">
-        <div>
-          <div class="vs-section-title">Logros recientes</div>
-          <div class="vs-achievements-grid">
-            @for (b of achievements; track b.t) {
-              <div class="vs-badge-card" [style.--mode-color]="'var(--vs-accent-' + b.c + ')'">
-                <div class="vs-badge-card__icon">{{ b.ico }}</div>
-                <div class="vs-display" style="font-size: 18px; margin-top: 8px">{{ b.t }}</div>
-                <div style="color: var(--vs-text-muted); font-size: 11px; margin-top: 4px">{{ b.s }}</div>
-              </div>
-            }
-          </div>
-        </div>
-
-        <div>
-          <div class="vs-section-title">Historial reciente</div>
-          <div class="vs-card" style="padding: 0">
-            <table class="vs-table">
-              <tbody>
-                @for (r of history; track r.mode + r.when) {
+            } @else {
+              <table class="vs-table">
+                <thead>
                   <tr>
-                    <td>
-                      <span style="font-size: 11px; font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.1em; color: var(--vs-text-secondary)">
-                        {{ r.mode }}
-                      </span>
-                    </td>
-                    <td>
-                      <span style="font-weight: 600; font-size: 12px"
-                            [style.color]="r.win ? 'var(--vs-accent-green)' : 'var(--vs-accent-red)'">
-                        {{ r.win ? 'VICTORIA' : 'DERROTA' }}
-                      </span>
-                    </td>
-                    <td class="vs-mono" style="font-size: 12px">×{{ r.streak }}</td>
-                    <td class="vs-mono" style="font-size: 12px">{{ r.pts }}</td>
-                    <td style="color: var(--vs-text-muted); font-size: 12px">{{ r.when }}</td>
+                    <th>Modo</th><th>Partidas</th><th>Victorias</th><th>% Acierto</th><th>Mejor racha</th>
                   </tr>
-                }
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  @for (s of modeStats(); track s.mode) {
+                    <tr>
+                      <td style="font-weight: 600">{{ s.mode }}</td>
+                      <td class="vs-mono">{{ s.games }}</td>
+                      <td class="vs-mono">{{ s.wins }}</td>
+                      <td class="vs-mono" style="color: var(--vs-accent-green)">{{ s.acc }}</td>
+                      <td class="vs-mono" style="color: var(--vs-accent-gold)">{{ s.best }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            }
           </div>
         </div>
       </div>

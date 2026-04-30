@@ -1,0 +1,79 @@
+<div class="vs-precision">
+
+  <div class="vs-hud">
+    <div class="vs-hud__left">
+      <span class="vs-pill vs-pill--info">
+        <span class="vs-pill__dot"></span>PRECISIÓN
+      </span>
+      <div class="vs-precision__lifebar">
+        <div class="vs-precision__lifebar-fill" [style]="lifeBarStyle()"></div>
+      </div>
+      <span class="vs-mono">{{ lives() }} / 100</span>
+    </div>
+    <div class="vs-hud__right">
+      <div class="vs-hud__score">
+        <div class="vs-stat-label">RONDAS</div>
+        <div class="vs-stat-num">{{ rounds() }}</div>
+      </div>
+      <a routerLink="/play/select" class="btn btn--ghost btn--sm">ABANDONAR</a>
+    </div>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="vs-error">{{ errorMessage() }}</div>
+  }
+
+  @if (question(); as q) {
+    <div class="vs-precision__question">
+      <div class="vs-q-label">CATEGORÍA · {{ q.category }}</div>
+      <h2 class="vs-q-text vs-display">{{ q.text }}</h2>
+      @if (q.unit) {
+        <div class="vs-q-unit">Unidad: <strong>{{ q.unit }}</strong></div>
+      }
+    </div>
+
+    <div class="vs-precision__form">
+      <input
+        type="number"
+        inputmode="decimal"
+        class="vs-precision__input"
+        [disabled]="phase() !== 'idle'"
+        [ngModel]="inputValue()"
+        (ngModelChange)="inputValue.set($event)"
+        (keydown.enter)="submit()"
+        placeholder="Tu estimación" />
+      <button
+        type="button"
+        class="btn btn--primary btn--lg"
+        [disabled]="phase() !== 'idle' || !inputValue()"
+        (click)="submit()">
+        ENVIAR
+      </button>
+    </div>
+  } @else {
+    <div class="vs-loading">Cargando pregunta…</div>
+  }
+
+  @if (feedback(); as fb) {
+    <div class="vs-feedback" [class.is-correct]="fb.lifeDelta >= 0" [class.is-wrong]="fb.lifeDelta < 0">
+      <div class="vs-feedback__title vs-display">
+        @if (fb.lifeDelta > 0) { ¡EXCELENTE! }
+        @else if (fb.lifeDelta === 0) { ACEPTABLE }
+        @else { LEJOS }
+      </div>
+      <div class="vs-feedback__sub">
+        Valor real: <strong class="vs-mono">{{ fb.correctValue }}</strong>
+        · Desviación: <strong class="vs-mono">{{ fb.deviationPercent | number:'1.0-2' }}%</strong>
+      </div>
+      <div class="vs-feedback__delta vs-mono">
+        @if (fb.lifeDelta > 0) { +{{ fb.lifeDelta }} vidas }
+        @else if (fb.lifeDelta < 0) { {{ fb.lifeDelta }} vidas }
+        @else { sin cambio }
+      </div>
+      @if (lives() > 0) {
+        <button class="btn btn--primary btn--lg" (click)="next()">SIGUIENTE →</button>
+      }
+    </div>
+  }
+
+</div>

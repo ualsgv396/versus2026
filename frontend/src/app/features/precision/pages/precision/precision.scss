@@ -1,0 +1,91 @@
+.vs-precision {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  padding: 1.5rem;
+  gap: 2rem;
+  align-items: center;
+}
+
+.vs-precision__question {
+  text-align: center;
+  max-width: 800px;
+}
+
+.vs-q-unit {
+  margin-top: 0.5rem;
+  color: var(--vs-text-secondary, #aaa);
+  font-size: 0.95rem;
+}
+
+.vs-precision__form {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 480px;
+}
+
+.vs-precision__input {
+  flex: 1;
+  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  color: var(--vs-text-primary, #fff);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.5rem;
+  text-align: center;
+
+  &:focus {
+    outline: none;
+    border-color: var(--vs-accent-blue, #3498db);
+  }
+}
+
+.vs-precision__lifebar {
+  position: relative;
+  height: 14px;
+  width: 240px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.vs-precision__lifebar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--vs-accent-red, #e74c3c), var(--vs-accent-gold, #f1c40f), var(--vs-accent-green, #2ecc71));
+  transition: width 300ms ease;
+}
+
+.vs-error {
+  margin: 0 auto;
+  padding: 0.6rem 1rem;
+  background: rgba(231, 76, 60, 0.12);
+  border: 1px solid var(--vs-accent-red, #e74c3c);
+  color: var(--vs-accent-red, #e74c3c);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  max-width: 600px;
+}
+
+.vs-loading {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--vs-text-secondary, #aaa);
+}
+
+.vs-feedback {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 2rem;
+  border-radius: 16px;
+  max-width: 520px;
+  width: 100%;
+}
+.vs-feedback.is-correct { background: rgba(46, 204, 113, 0.10); border: 1px solid var(--vs-accent-green, #2ecc71); }
+.vs-feedback.is-wrong   { background: rgba(231, 76, 60, 0.10);  border: 1px solid var(--vs-accent-red, #e74c3c); }

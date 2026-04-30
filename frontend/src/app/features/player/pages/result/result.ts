@@ -1,6 +1,14 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, computed, inject, signal } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { TopbarComponent } from '../../../../shared/components/layout/topbar/topbar';
+
+interface ResultState {
+  mode: 'SURVIVAL' | 'PRECISION';
+  score: number;
+  bestStreak: number;
+  rounds: number;
+  won: boolean;
+}
 
 @Component({
   selector: 'app-result',
@@ -10,24 +18,41 @@ import { TopbarComponent } from '../../../../shared/components/layout/topbar/top
   styleUrl: './result.scss',
 })
 export class Result {
-  isWin = true;
+  private readonly router = inject(Router);
 
-  stats = [
-    { num: '14',     label: 'Racha máxima', accent: 'var(--vs-accent-gold)' },
-    { num: '18 250', label: 'Puntos',        accent: 'var(--vs-accent-green)' },
-    { num: '12/14',  label: 'Aciertos' },
-    { num: '+ 320',  label: 'XP',            accent: 'var(--vs-accent-blue)' },
-  ];
+  readonly state = signal<ResultState | null>(this.readState());
+  readonly isWin = computed(() => this.state()?.won ?? false);
+  readonly modeLabel = computed(() => {
+    const m = this.state()?.mode ?? 'SURVIVAL';
+    return m === 'PRECISION' ? 'PRECISIÓN' : 'SUPERVIVENCIA';
+  });
 
-  breakdown = [
-    { cat: 'Fútbol',    hits: 5, miss: 0 },
-    { cat: 'Música',    hits: 4, miss: 1 },
-    { cat: 'Cine',      hits: 3, miss: 1 },
-    { cat: 'Política',  hits: 0, miss: 0 },
-  ];
+  readonly stats = computed(() => {
+    const s = this.state();
+    if (!s) {
+      return [
+        { num: '—', label: 'Racha máxima', accent: 'var(--vs-accent-gold)' },
+        { num: '—', label: 'Puntos',       accent: 'var(--vs-accent-green)' },
+        { num: '—', label: 'Rondas' },
+      ];
+    }
+    return [
+      { num: String(s.bestStreak), label: 'Racha máxima', accent: 'var(--vs-accent-gold)' },
+      { num: s.score.toLocaleString('es-ES'), label: 'Puntos', accent: 'var(--vs-accent-green)' },
+      { num: String(s.rounds), label: 'Rondas' },
+    ];
+  });
 
-  pct(hits: number, miss: number): number {
-    const total = hits + miss;
-    return total ? Math.round((hits / total) * 100) : 0;
+  readonly replayLink = computed(() =>
+    this.state()?.mode === 'PRECISION' ? '/play/precision' : '/play/survival'
+  );
+
+  private readState(): ResultState | null {
+    const nav = this.router.getCurrentNavigation();
+    const fromNav = nav?.extras?.state as ResultState | undefined;
+    if (fromNav) return fromNav;
+    const fromHistory = (history.state ?? null) as ResultState | null;
+    if (fromHistory && typeof fromHistory.score === 'number') return fromHistory;
+    return null;
   }
 }

@@ -23,7 +23,7 @@ export class ModeSelect {
       color: 'var(--vs-accent-blue)',
       desc: 'Respuesta numérica. Cuanto más cerca, mejor. Acertar de cerca recupera vida.',
       tag: 'Solo · 1J',
-      route: '/play/lobby',
+      route: '/play/precision',
     },
     {
       key: 'binary', name: 'DUELO BINARIO', icon: '⚔',

@@ -8,12 +8,10 @@
       <div class="vs-dash__hero-left">
         <div class="vs-q-label">BIENVENIDO DE VUELTA</div>
         <h1 class="vs-display vs-dash__title">
-          ARITZZ<span style="color: var(--vs-accent-red)">.</span>
+          {{ (username() || 'JUGADOR') | uppercase }}<span style="color: var(--vs-accent-red)">.</span>
         </h1>
         <p style="color: var(--vs-text-secondary); max-width: 360px; margin-top: 4px">
-          Tu última partida fue una
-          <strong style="color: var(--vs-accent-gold)">racha de 14</strong>
-          en Supervivencia. ¿Otra vuelta?
+          ¿Listo para otra vuelta? Pulsa jugar y a por todas.
         </p>
         <div style="display: flex; gap: 10px; margin-top: 20px">
           <a routerLink="/play/select" class="btn btn--danger btn--lg">▶ JUGAR AHORA</a>
@@ -23,7 +21,7 @@
 
       <div class="vs-dash__hero-right">
         <div class="vs-stat-grid">
-          @for (s of stats; track s.label) {
+          @for (s of stats(); track s.label) {
             <div class="vs-stat-block">
               <div class="vs-stat-num" [style.color]="s.accent || null">{{ s.num }}</div>
               <div class="vs-stat-label">{{ s.label }}</div>
@@ -55,6 +53,7 @@
     </div>
 
     <!-- Cols: actividad + ranking -->
+    @if (activity.length > 0 || rankings.length > 0) {
     <div class="vs-dash__cols">
 
       <div class="vs-section" style="flex: 2">
@@ -117,5 +116,6 @@
       </div>
 
     </div>
+    }
   </div>
 </div>
