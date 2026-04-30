@@ -1,5 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { TopbarComponent } from '../../../../shared/components/layout/topbar/topbar';
+import { AuthService } from '../../../../core/services/auth.service';
+import { UserService } from '../../../../core/services/user.service';
+import { StatsService } from '../../../../core/services/stats.service';
+import { UserMe } from '../../../../core/models/auth.models';
+import { GameMode, PlayerStats } from '../../../../core/models/game.models';
+
+const MODE_LABEL: Record<GameMode, string> = {
+  SURVIVAL: 'Supervivencia',
+  PRECISION: 'Precisión',
+  BINARY_DUEL: 'Duelo binario',
+  PRECISION_DUEL: 'Duelo de precisión',
+  SABOTAGE: 'Sabotaje',
+};
 
 @Component({
   selector: 'app-profile',
@@ -8,34 +21,53 @@ import { TopbarComponent } from '../../../../shared/components/layout/topbar/top
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })
-export class Profile {
-  modeStats = [
-    { mode: 'Supervivencia',  games: 120, wins: 78,  acc: '72%', best: 14 },
-    { mode: 'Precisión',       games: 64,  wins: 31,  acc: '49%', best: 8  },
-    { mode: 'Duelo binario',   games: 38,  wins: 22,  acc: '58%', best: 11 },
-    { mode: 'Sabotaje',        games: 25,  wins: 14,  acc: '56%', best: 7  },
-  ];
+export class Profile implements OnInit {
+  private readonly auth = inject(AuthService);
+  private readonly users = inject(UserService);
+  private readonly statsApi = inject(StatsService);
 
-  categories = [
-    { cat: 'Fútbol',     pct: 78 },
-    { cat: 'Música',     pct: 65 },
-    { cat: 'Cine',       pct: 52 },
-    { cat: 'Geografía',  pct: 41 },
-    { cat: 'Política',   pct: 28 },
-  ];
+  readonly me = signal<UserMe | null>(null);
+  readonly statsList = signal<PlayerStats[]>([]);
 
-  achievements = [
-    { t: 'Sin piedad',      s: 'Racha de 10 sin fallar',        ico: '☠', c: 'red'    },
-    { t: 'Numerólogo',      s: 'Desviación < 1% en Precisión',  ico: '◎', c: 'blue'   },
-    { t: 'Sabotaje brutal', s: 'Eliminar a alguien en <30s',    ico: '⚡', c: 'purple' },
-    { t: 'Top 500',         s: 'Alcanzar el ranking',           ico: '★', c: 'gold'   },
-  ];
+  readonly initials = computed(() => {
+    const u = this.me()?.username ?? this.auth.user()?.username ?? '';
+    return u.slice(0, 2).toUpperCase() || '??';
+  });
 
-  history = [
-    { mode: 'SUPERVIVENCIA', win: true,  streak: 14, pts: '+18 250', when: 'hace 12 min' },
-    { mode: 'PRECISIÓN',     win: false, streak: 3,  pts: '+2 400',  when: 'hace 1 h'    },
-    { mode: 'SABOTAJE',      win: true,  streak: 9,  pts: '+11 800', when: 'ayer'         },
-    { mode: 'SUPERVIVENCIA', win: false, streak: 6,  pts: '+5 100',  when: 'ayer'         },
-    { mode: 'DUELO BINARIO', win: true,  streak: 8,  pts: '+9 600',  when: 'hace 2 d'    },
-  ];
+  readonly username = computed(() => this.me()?.username ?? this.auth.user()?.username ?? '—');
+
+  readonly joined = computed(() => {
+    const iso = this.me()?.createdAt;
+    if (!iso) return '—';
+    const d = new Date(iso);
+    return d.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+  });
+
+  readonly totalGames = computed(() =>
+    this.statsList().reduce((s, x) => s + x.gamesPlayed, 0)
+  );
+
+  readonly bestStreakOverall = computed(() =>
+    this.statsList().reduce((m, x) => Math.max(m, x.bestStreak), 0)
+  );
+
+  readonly modeStats = computed(() =>
+    this.statsList().map((s) => ({
+      mode: MODE_LABEL[s.mode] ?? s.mode,
+      games: s.gamesPlayed,
+      wins: s.gamesWon,
+      acc: s.gamesPlayed === 0 ? '—' : `${s.winRate}%`,
+      best: s.bestStreak,
+    }))
+  );
+
+  // Categories + achievements + history come from endpoints not yet implemented.
+  categories: { cat: string; pct: number }[] = [];
+  achievements: { t: string; s: string; ico: string; c: string }[] = [];
+  history: { mode: string; win: boolean; streak: number; pts: string; when: string }[] = [];
+
+  ngOnInit(): void {
+    this.users.me().subscribe({ next: (u) => this.me.set(u), error: () => {} });
+    this.statsApi.mine().subscribe({ next: (l) => this.statsList.set(l ?? []), error: () => {} });
+  }
 }

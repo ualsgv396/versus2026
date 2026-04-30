@@ -1,8 +1,6 @@
 package com.versus.api.config;
 
 import com.versus.api.auth.JwtAuthFilter;
-import com.versus.api.common.dto.ErrorResponse;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +25,7 @@ public class SecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, ObjectMapper objectMapper) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsSource()))
@@ -42,14 +40,14 @@ public class SecurityConfig {
                         .authenticationEntryPoint((req, res, ex) -> {
                             res.setStatus(401);
                             res.setContentType("application/json");
-                            objectMapper.writeValue(res.getWriter(),
-                                    new ErrorResponse("UNAUTHORIZED", "Authentication required", 401));
+                            res.getWriter().write(
+                                    "{\"error\":\"UNAUTHORIZED\",\"message\":\"Authentication required\",\"status\":401}");
                         })
                         .accessDeniedHandler((req, res, ex) -> {
                             res.setStatus(403);
                             res.setContentType("application/json");
-                            objectMapper.writeValue(res.getWriter(),
-                                    new ErrorResponse("FORBIDDEN", "Access denied", 403));
+                            res.getWriter().write(
+                                    "{\"error\":\"FORBIDDEN\",\"message\":\"Access denied\",\"status\":403}");
                         }))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

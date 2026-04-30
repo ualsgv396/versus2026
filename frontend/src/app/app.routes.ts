@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard, adminGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'landing', pathMatch: 'full' },
@@ -20,14 +21,17 @@ export const routes: Routes = [
   // ─── Jugador ──────────────────────────────────────────────────────────────
   {
     path: 'dashboard',
+    canActivate: [authGuard],
     loadComponent: () => import('./features/player/pages/dashboard/dashboard').then(m => m.Dashboard),
   },
   {
     path: 'profile',
+    canActivate: [authGuard],
     loadComponent: () => import('./features/player/pages/profile/profile').then(m => m.Profile),
   },
   {
     path: 'play',
+    canActivate: [authGuard],
     children: [
       {
         path: 'select',
@@ -42,6 +46,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/survival/pages/survival/survival').then(m => m.Survival),
       },
       {
+        path: 'precision',
+        loadComponent: () => import('./features/precision/pages/precision/precision').then(m => m.Precision),
+      },
+      {
         path: 'result',
         loadComponent: () => import('./features/player/pages/result/result').then(m => m.Result),
       },
@@ -52,6 +60,7 @@ export const routes: Routes = [
   // ─── Admin ────────────────────────────────────────────────────────────────
   {
     path: 'admin',
+    canActivate: [authGuard, adminGuard],
     children: [
       {
         path: 'dashboard',

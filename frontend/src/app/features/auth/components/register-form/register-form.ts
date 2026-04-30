@@ -1,6 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 import { VsButtonComponent } from '../../../../shared/components/vs-button/vs-button.component';
+import { AuthService } from '../../../../core/services/auth.service';
 
 function passwordMatchValidator(group: AbstractControl): ValidationErrors | null {
   const password = group.get('password')?.value;
@@ -21,6 +24,9 @@ export class RegisterForm {
   readonly showConfirmPassword = signal(false);
 
   readonly form: FormGroup;
+
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group(
@@ -81,7 +87,24 @@ export class RegisterForm {
     this.errorMessage.set(null);
     this.loading.set(true);
 
-    // TODO: inject AuthService y llamar a register()
-    console.log('Registrar usuario:', this.form.value);
+    const { username, email, password } = this.form.value;
+    this.auth.register({ username, email, password }).subscribe({
+      next: () => {
+        this.loading.set(false);
+        this.router.navigateByUrl('/dashboard');
+      },
+      error: (err: HttpErrorResponse) => {
+        this.loading.set(false);
+        this.errorMessage.set(this.translate(err));
+      },
+    });
+  }
+
+  private translate(err: HttpErrorResponse): string {
+    const code = err?.error?.error;
+    if (code === 'CONFLICT') return 'El email o usuario ya están registrados';
+    if (code === 'VALIDATION_ERROR') return 'Datos no válidos';
+    if (err.status === 0) return 'No se puede conectar con el servidor';
+    return err?.error?.message ?? 'Error inesperado';
   }
 }

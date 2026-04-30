@@ -32,36 +32,32 @@
     </div>
   </div>
 
-  <!-- Pregunta -->
-  <div class="vs-survival__question">
-    <div class="vs-q-label">PREGUNTA · #{{ (qIdx() % 3) + 1 }}</div>
-    <h2 class="vs-q-text vs-display">
-      ¿Quién tiene MÁS {{ question().a.sub.toLowerCase() }}?
-    </h2>
-  </div>
+  @if (errorMessage()) {
+    <div class="vs-error">{{ errorMessage() }}</div>
+  }
 
-  <!-- Arena -->
-  <div class="vs-survival__arena">
-    <app-compare-card
-      [item]="cardA()"
-      [state]="cardStateA()"
-      [revealed]="phase() !== 'idle'"
-      position="left"
-      (picked)="pick('a')" />
-
-    <div class="vs-vs-divider">
-      <div class="vs-vs-line"></div>
-      <div class="vs-vs-mark vs-display">VS</div>
-      <div class="vs-vs-line"></div>
+  @if (question(); as q) {
+    <!-- Pregunta -->
+    <div class="vs-survival__question">
+      <div class="vs-q-label">CATEGORÍA · {{ q.category | uppercase }}</div>
+      <h2 class="vs-q-text vs-display">{{ q.text }}</h2>
     </div>
 
-    <app-compare-card
-      [item]="cardB()"
-      [state]="cardStateB()"
-      [revealed]="phase() !== 'idle'"
-      position="right"
-      (picked)="pick('b')" />
-  </div>
+    <!-- Arena -->
+    <div class="vs-survival__arena vs-binary-arena">
+      @for (opt of q.options; track opt.id) {
+        <button
+          type="button"
+          [class]="optionClass(opt.id)"
+          [disabled]="phase() !== 'idle'"
+          (click)="pick(opt.id)">
+          <span class="vs-bopt__text">{{ opt.text }}</span>
+        </button>
+      }
+    </div>
+  } @else {
+    <div class="vs-loading">Cargando pregunta…</div>
+  }
 
   <!-- Feedback overlay -->
   @if (feedback(); as fb) {
@@ -70,12 +66,16 @@
         <div class="vs-feedback__title vs-display">¡ACIERTO!</div>
         <div class="vs-feedback__delta vs-mono">+{{ fmt(fb.delta) }}</div>
         <div class="vs-feedback__sub">RACHA × {{ streak() }}</div>
-        <button class="btn btn--primary btn--lg" (click)="next()">SIGUIENTE →</button>
+        @if (lives() > 0) {
+          <button class="btn btn--primary btn--lg" (click)="next()">SIGUIENTE →</button>
+        }
       } @else {
         <div class="vs-feedback__title vs-display vs-glitch">FALLO</div>
         <div class="vs-feedback__delta">— 1 VIDA</div>
         <div class="vs-feedback__sub">Racha rota</div>
-        <button class="btn btn--danger btn--lg" (click)="next()">CONTINUAR</button>
+        @if (lives() > 0) {
+          <button class="btn btn--danger btn--lg" (click)="next()">CONTINUAR</button>
+        }
       }
     </div>
   }

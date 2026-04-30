@@ -17,7 +17,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-appuser}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql              # Postgres 18+ recomienda montar un nivel arriba
       - ./postgres/init:/docker-entrypoint-initdb.d   # Scripts SQL iniciales (opcional)
     networks:
       - app-network

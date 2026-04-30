@@ -10,7 +10,11 @@
 
   <nav class="vs-topbar__nav">
     @for (item of items(); track item[0]) {
-      <a [class.active]="active() === item[0]">{{ item[1] }}</a>
+      @if (routeFor(item[0]); as route) {
+        <a [routerLink]="route" [class.active]="active() === item[0]">{{ item[1] }}</a>
+      } @else {
+        <a [class.active]="active() === item[0]" style="opacity: 0.5; cursor: not-allowed">{{ item[1] }}</a>
+      }
     }
   </nav>
 
