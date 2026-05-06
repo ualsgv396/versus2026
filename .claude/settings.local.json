@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(unzip -o Versus-handoff.zip -d Versus-handoff)",
-      "Bash(npx ng *)"
-    ]
-  }
-}
