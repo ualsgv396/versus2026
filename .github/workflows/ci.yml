@@ -7,9 +7,6 @@ on:
   push:
     branches: [main]
 
-# pull_request_target runs in the base-repo context (has GITHUB_TOKEN write scope).
-# We explicitly check out the PR head SHA to test the contributor's code.
-# Secrets are not passed to test steps, so the risk surface is minimal.
 permissions:
   contents: read
   checks: write
@@ -110,6 +107,7 @@ jobs:
 
       - name: Run tests
         working-directory: frontend
+
         run: npx ng test
         env:
           CI: 'true'
