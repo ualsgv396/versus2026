@@ -7,7 +7,6 @@ on:
   push:
     branches: [main]
 
-
 permissions:
   contents: read
   checks: write
@@ -108,7 +107,10 @@ jobs:
 
       - name: Run tests
         working-directory: frontend
-        run: npx ng test --configuration=ci
+
+        run: npx ng test
+        env:
+          CI: 'true'
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
