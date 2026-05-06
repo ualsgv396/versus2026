@@ -71,13 +71,7 @@
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "configurations": {
-            "ci": {
-              "reporters": ["verbose", "junit"],
-              "outputFile": "test-results/junit.xml"
-            }
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }
