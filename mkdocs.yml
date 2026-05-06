@@ -1,0 +1,81 @@
+site_name: Versus Docs
+site_description: Documentación técnica del proyecto Versus — quiz multijugador
+site_url: https://ualdra.github.io/versus2026/
+repo_url: https://github.com/ualdra/versus2026
+repo_name: ualdra/versus2026
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  language: es
+  palette:
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: purple
+      toggle:
+        icon: material/brightness-4
+        name: Cambiar a modo claro
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: purple
+      toggle:
+        icon: material/brightness-7
+        name: Cambiar a modo oscuro
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.footer
+    - toc.integrate
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.action.edit
+    - content.action.view
+
+markdown_extensions:
+  - admonition
+  - tables
+  - attr_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.highlight:
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+nav:
+  - Inicio: index.md
+  - Backend:
+    - Índice: backend/README.md
+    - Arquitectura: backend/architecture.md
+    - Infraestructura común: backend/common.md
+    - Módulos:
+      - Autenticación: backend/modules/auth.md
+      - Usuarios: backend/modules/users.md
+      - Preguntas: backend/modules/questions.md
+      - Juego singleplayer: backend/modules/game.md
+      - Partidas & matchmaking: backend/modules/match.md
+      - Estadísticas: backend/modules/stats.md
+      - Moderación: backend/modules/moderation.md
+      - Scraping: backend/modules/scraping.md
+  - Sprints:
+    - Sprint 1-2: backend-mvp-sprint-1-2.md
+    - Sprint 3: backend-mvp-sprint-3.md
+    - Sprint 4: backend-mvp-sprint-4.md
+  - Base de datos: bd-scheme.md
+  - API — Contratos: guia-de-coordinación-técnica.md
+  - Style guide: style-guide.md

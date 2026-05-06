@@ -64,6 +64,21 @@ services:
     volumes:
       - pgadmin_data:/var/lib/pgadmin
 
+  docs:
+    image: python:3.12-slim
+    profiles:
+      - docs
+    working_dir: /app
+    command: >
+      sh -c "pip install --quiet -r requirements-docs.txt &&
+             mkdocs serve --dev-addr 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    networks:
+      - app-network
+
 volumes:
   maven_cache:
   node_modules:
