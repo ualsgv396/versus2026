@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthService authService;//
+    private final AuthService authService;
 
     @Operation(summary = "Register a new player account", responses = {
             @ApiResponse(responseCode = "201", description = "Account created"),
