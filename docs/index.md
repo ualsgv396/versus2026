@@ -65,6 +65,13 @@
 
     [:octicons-arrow-right-24: Estrategia](qa/estrategia.md) · [Plan de pruebas](qa/plan-de-pruebas.md)
 
+
+-   :material-spider: **Scraping**
+
+    Spiders de Scrapy, pipeline de preguntas, deduplicación y guías para añadir nuevas fuentes.
+
+    [:octicons-arrow-right-24: Índice](scraping/README.md) · [Spiders](scraping/spiders.md) · [Pipeline](scraping/pipeline.md)
+
 </div>
 
 ## Roadmap de sprints
